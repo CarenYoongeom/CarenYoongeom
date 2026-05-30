@@ -1,0 +1,67 @@
+# ───────── OS junk ─────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ───────── Editor / IDE ─────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ───────── Node / npm (in case any tooling is added later) ─────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ───────── Python (in case Apps Script gets a local linter or scripts/) ─────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# ───────── Secrets — NEVER commit these ─────────
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+client_secret*.json
+service-account*.json
+apikey.txt
+
+# ───────── n8n local data (if anyone runs n8n in the repo folder) ─────────
+.n8n/
+n8n-data/
+
+# ───────── Netlify / hosting build outputs ─────────
+.netlify/
+dist/
+build/
+out/
+.cache/
+
+# ───────── Logs ─────────
+logs/
+*.log
+
+# ───────── Local override files ─────────
+config.local.*
+*.local.json
+
+# ───────── ABP-specific: avoid committing actual customer data dumps ─────────
+exports/
+backups/
+*.bak
+inquiries-export*.csv
+ksmc-customer-data*.csv
+
+# ───────── Generated PDFs / quotes (from Drive sync, etc.) ─────────
+quotations/
+generated-pdfs/

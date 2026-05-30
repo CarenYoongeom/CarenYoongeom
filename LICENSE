@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Yoongeom Caren Chae
+Copyright (c) 2026 [Your Name]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+────────────────────────────────────────────────────────────────────────────────
+
+ACADEMIC PROJECT NOTICE
+
+This repository contains work produced for the Agentic Business Platform (ABP)
+capstone module at SKK GSB (Sungkyunkwan University Graduate School of
+Business), 2026 cohort. The "KSMC" brand, business narrative, and customer
+data schemas are fictional and used solely for educational and demonstration
+purposes. They are not intended for commercial deployment and should not be
+represented as belonging to any real Korean semiconductor manufacturer.
+
+Reuse of the code (HTML, CSS, JavaScript, Apps Script, n8n workflow JSON) is
+freely permitted under MIT terms. Reuse of the KSMC brand identity, business
+case narrative, or any text content invoking the fictional KSMC entity is
+restricted and requires explicit permission from the author.

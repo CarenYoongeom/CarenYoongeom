@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KSMC — Korean Semiconductor Manufacturing Corporation</title>
+<meta name="description" content="KSMC is a fabless semiconductor manufacturer serving industrial, automotive, consumer, and IoT markets across 5nm to 65nm process nodes." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:        #0A0F1C;
+  --ink-soft:   #1F2533;
+  --paper:      #F5F3EE;
+  --paper-2:    #EBE7DE;
+  --line:       #D6D1C4;
+  --copper:     #C9501C;
+  --copper-dim: #9C3E15;
+  --muted:      #6B7280;
+  --green-ok:   #2D6A4F;
+  --red-block:  #B23A48;
+
+  --font-sans:  'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:  'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  --font-serif: 'IBM Plex Serif', Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(10,15,28,0.025) 1px, transparent 0);
+  background-size: 24px 24px;
+  z-index: 1; opacity: 0.6;
+}
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--copper); }
+
+/* ====== NAV ====== */
+nav.top {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245, 243, 238, 0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+nav.top .inner {
+  max-width: 1320px; margin: 0 auto; padding: 18px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-mono); font-weight: 600; font-size: 17px;
+  letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px;
+}
+.logo-mark {
+  width: 26px; height: 26px; background: var(--ink); position: relative;
+}
+.logo-mark::after {
+  content: ''; position: absolute; inset: 6px; background: var(--copper);
+}
+.nav-links {
+  display: flex; gap: 36px; list-style: none;
+  font-size: 15px; font-weight: 500; letter-spacing: 0.02em;
+}
+.nav-links a { transition: color 0.2s; }
+.nav-cta {
+  font-family: var(--font-mono); font-size: 14px; padding: 10px 20px;
+  border: 1px solid var(--ink); letter-spacing: 0.08em;
+  text-transform: uppercase; transition: all 0.25s; cursor: pointer;
+}
+.nav-cta:hover { background: var(--ink); color: var(--paper); }
+
+/* ====== HERO ====== */
+section.hero {
+  position: relative; padding: 120px 40px 100px;
+  max-width: 1320px; margin: 0 auto;
+  border-bottom: 1px solid var(--line); z-index: 2;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: 14px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 32px;
+  display: flex; align-items: center; gap: 14px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 28px; height: 1px; background: var(--copper);
+}
+.hero h1 {
+  font-size: clamp(48px, 7vw, 96px); font-weight: 300;
+  line-height: 1.02; letter-spacing: -0.03em;
+  margin-bottom: 40px; max-width: 14ch;
+}
+.hero h1 em {
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+  color: var(--copper);
+}
+.hero-sub {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--line);
+}
+.hero-sub p {
+  font-size: 18px; line-height: 1.65;
+  color: var(--ink-soft); max-width: 50ch;
+}
+.hero-stats { font-family: var(--font-mono); font-size: 15px; }
+.hero-stats div {
+  padding: 16px 0; border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+}
+.hero-stats div:last-child { border-bottom: none; }
+.hero-stats .label {
+  color: var(--muted); letter-spacing: 0.05em;
+  text-transform: uppercase; font-size: 13px;
+}
+.hero-stats .val { font-weight: 500; }
+
+/* ====== SECTION BASE ====== */
+section.block {
+  position: relative; padding: 100px 40px;
+  max-width: 1320px; margin: 0 auto; z-index: 2;
+}
+section.block.bordered { border-bottom: 1px solid var(--line); }
+section.block.alt {
+  background: var(--paper-2); max-width: none;
+  padding-left: 0; padding-right: 0;
+}
+section.block.alt > .alt-inner {
+  max-width: 1320px; margin: 0 auto; padding: 0 40px;
+}
+.section-header {
+  display: grid; grid-template-columns: 80px 1fr;
+  gap: 40px; margin-bottom: 70px; align-items: start;
+}
+.section-num {
+  font-family: var(--font-mono); font-size: 15px;
+  color: var(--copper); padding-top: 18px; letter-spacing: 0.1em;
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 56px); font-weight: 300;
+  letter-spacing: -0.02em; line-height: 1.05; max-width: 18ch;
+}
+.section-title em {
+  font-family: var(--font-serif); font-style: italic; font-weight: 400;
+}
+.section-lede {
+  margin-top: 24px; font-size: 18px;
+  color: var(--ink-soft); max-width: 56ch; line-height: 1.65;
+}
+
+/* ====== TECHNOLOGY ====== */
+.tech-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line);
+  border: 1px solid var(--line); margin-left: 120px;
+}
+.tech-card {
+  background: var(--paper); padding: 36px 28px;
+  display: flex; flex-direction: column;
+  min-height: 220px; transition: background 0.3s;
+}
+.tech-card:hover { background: var(--paper-2); }
+.tech-node {
+  font-family: var(--font-mono); font-size: 36px;
+  font-weight: 500; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -0.02em;
+}
+.tech-type {
+  font-family: var(--font-mono); font-size: 13px;
+  color: var(--copper); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+.tech-apps {
+  margin-top: auto; font-size: 15px;
+  color: var(--muted); line-height: 1.5;
+}
+
+/* ====== PRODUCTS ====== */
+.product-list { margin-left: 120px; border-top: 1px solid var(--ink); }
+.product-row {
+  display: grid; grid-template-columns: 60px 1fr 2fr 140px;
+  gap: 40px; padding: 36px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: center; transition: padding 0.3s; cursor: pointer;
+}
+.product-row:hover { padding-left: 12px; }
+.product-row:hover .product-name { color: var(--copper); }
+.product-idx {
+  font-family: var(--font-mono); font-size: 14px;
+  color: var(--muted); letter-spacing: 0.08em;
+}
+.product-name {
+  font-size: 26px; font-weight: 400;
+  letter-spacing: -0.01em; transition: color 0.25s;
+}
+.product-desc { font-size: 16px; color: var(--ink-soft); line-height: 1.55; }
+.product-tag {
+  font-family: var(--font-mono); font-size: 13px;
+  letter-spacing: 0.08em; text-align: right;
+  color: var(--copper); text-transform: uppercase;
+}
+
+/* ====== QUALITY ====== */
+.cert-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; margin-left: 120px;
+  border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
+}
+.cert-item { padding: 40px 28px; border-right: 1px solid var(--line); }
+.cert-item:last-child { border-right: none; }
+.cert-code {
+  font-family: var(--font-mono); font-size: 15px;
+  letter-spacing: 0.06em; color: var(--copper); margin-bottom: 12px;
+}
+.cert-name { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+.cert-scope { font-size: 15px; color: var(--muted); }
+
+/* ====== CONTACT — stacked: 2x2 routes on top, wide submit below ====== */
+.contact-wrap {
+  margin-left: 120px; margin-top: 20px;
+}
+.contact-routes h3 {
+  font-family: var(--font-mono); font-size: 14px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 28px;
+  padding-bottom: 16px; border-bottom: 1px solid var(--line);
+}
+/* 2x2 grid for the four routing categories */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 80px;
+}
+.route {
+  padding: 28px 32px 28px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+/* right-column items: flip padding + remove right border */
+.route:nth-child(2n) {
+  padding-right: 0;
+  padding-left: 32px;
+  border-right: none;
+}
+/* bottom-row items: remove bottom border so it doesn't double up */
+.route:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+.route-label { font-size: 20px; font-weight: 500; margin-bottom: 6px; }
+.route-desc { font-size: 16px; color: var(--ink-soft); line-height: 1.5; }
+
+/* Wide submit area: Compliance Notice + Form, full width below routes */
+.contact-submit { width: 100%; }
+
+.compliance-notice {
+  background: var(--ink); color: var(--paper);
+  padding: 28px 32px; margin-bottom: 32px;
+  font-family: var(--font-mono); font-size: 15px;
+  line-height: 1.65; position: relative;
+  border-left: 4px solid var(--copper);
+}
+.compliance-notice strong {
+  display: block; font-size: 13px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 12px; font-weight: 600;
+}
+.compliance-notice ul { list-style: none; margin-top: 10px; }
+.compliance-notice li {
+  padding-left: 20px; position: relative;
+  margin-bottom: 4px; color: rgba(245, 243, 238, 0.85);
+}
+.compliance-notice li::before {
+  content: '→'; position: absolute; left: 0; color: var(--copper);
+}
+
+/* ====== FORM ====== */
+.form-frame {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 40px; position: relative;
+}
+.form-frame::before {
+  content: 'FORM_ID: KSMC-INQUIRY-V3  ·  ROUTED_VIA: apps-script → sheets → n8n';
+  position: absolute; top: -28px; left: 0;
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.1em; color: var(--muted);
+}
+
+.inquiry-id-display {
+  font-family: var(--font-mono); font-size: 13px;
+  color: var(--ink-soft); background: var(--paper-2);
+  padding: 12px 16px; border-left: 3px solid var(--copper);
+  margin-bottom: 32px; letter-spacing: 0.04em;
+}
+.inquiry-id-display strong {
+  color: var(--copper); font-weight: 600; margin-left: 6px;
+}
+
+.ksmc-form { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field.full { grid-column: 1 / -1; }
+.field label {
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500;
+}
+.field label .req { color: var(--copper); margin-left: 3px; }
+.field .sub-label {
+  font-family: var(--font-sans); font-size: 12px;
+  color: var(--muted); text-transform: none;
+  letter-spacing: 0; margin-top: 2px; font-weight: 400;
+}
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"],
+.field input[type="number"],
+.field textarea {
+  font-family: var(--font-sans); font-size: 15px;
+  color: var(--ink); background: transparent;
+  border: 1px solid var(--line);
+  padding: 13px 14px; width: 100%; outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.field input::placeholder, .field textarea::placeholder {
+  color: rgba(107, 114, 128, 0.55);
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--ink);
+  background: rgba(255, 255, 255, 0.5);
+}
+.field textarea {
+  resize: vertical; min-height: 110px;
+  line-height: 1.55;
+}
+
+/* Inline section divider inside form */
+.form-section-header {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 16px;
+  margin-top: 12px; padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.form-section-header span {
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--copper); white-space: nowrap;
+}
+.form-section-header::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+
+/* ====== PRIVACY CONSENT BLOCK (PIPA-style 3 tiers) ====== */
+.consent-block {
+  grid-column: 1 / -1;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  padding: 24px 28px;
+  margin-top: 8px;
+}
+.consent-master {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.consent-master input[type="checkbox"] {
+  width: 22px; height: 22px;
+  flex-shrink: 0; margin-top: 2px;
+  cursor: pointer; accent-color: var(--copper);
+}
+.consent-master-text {
+  font-family: var(--font-sans); font-size: 16px;
+  font-weight: 600; color: var(--ink);
+  line-height: 1.4;
+}
+.consent-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0 10px 32px;
+  font-size: 14px;
+}
+.consent-item.optional {
+  margin-top: 8px; padding-top: 18px; padding-left: 0;
+  border-top: 1px solid var(--line);
+}
+.consent-item.optional .consent-label { padding-left: 32px; }
+.consent-item input[type="checkbox"] {
+  width: 18px; height: 18px;
+  flex-shrink: 0; cursor: pointer;
+  accent-color: var(--copper);
+}
+.consent-label {
+  flex: 1; display: flex; align-items: center;
+  gap: 8px; color: var(--ink-soft);
+  cursor: pointer; line-height: 1.4;
+}
+.consent-tag {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.08em; padding: 2px 8px;
+  border: 1px solid var(--copper); color: var(--copper);
+  text-transform: uppercase; flex-shrink: 0;
+}
+.consent-tag.optional {
+  border-color: var(--muted); color: var(--muted);
+}
+.consent-view {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--copper); border-bottom: 1px solid var(--copper);
+  cursor: pointer; padding-bottom: 1px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-left: auto;
+}
+.consent-view:hover { color: var(--copper-dim); }
+
+.form-submit {
+  grid-column: 1 / -1; margin-top: 16px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.btn-submit {
+  font-family: var(--font-mono); font-size: 15px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--paper); background: var(--ink);
+  border: none; padding: 18px 36px;
+  cursor: pointer; transition: all 0.25s; font-weight: 500;
+}
+.btn-submit:hover:not(:disabled) { background: var(--copper); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.form-hint {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--muted); letter-spacing: 0.04em;
+}
+.form-status {
+  grid-column: 1 / -1; display: none;
+  padding: 24px 28px; margin-top: 8px;
+  font-family: var(--font-mono); font-size: 14px;
+  line-height: 1.6; border-left: 4px solid;
+}
+.form-status.show { display: block; }
+.form-status.ok {
+  background: rgba(45, 106, 79, 0.08);
+  border-left-color: var(--green-ok); color: var(--green-ok);
+}
+.form-status.err {
+  background: rgba(178, 58, 72, 0.08);
+  border-left-color: var(--red-block); color: var(--red-block);
+}
+.form-status strong {
+  display: block; font-size: 12px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* ====== MODAL (Privacy Policy / Personal Info / Marketing) ====== */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(10, 15, 28, 0.7);
+  display: none; align-items: center; justify-content: center;
+  padding: 40px 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: var(--paper); max-width: 720px; width: 100%;
+  max-height: 80vh; overflow-y: auto;
+  border: 1px solid var(--ink);
+  position: relative;
+}
+.modal-header {
+  padding: 28px 36px 20px;
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0;
+  background: var(--paper); z-index: 1;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal-tag {
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--copper);
+}
+.modal-title {
+  font-size: 22px; font-weight: 500;
+  letter-spacing: -0.01em; margin-top: 6px;
+}
+.modal-close {
+  font-family: var(--font-mono); font-size: 22px;
+  background: none; border: none; cursor: pointer;
+  color: var(--ink); padding: 8px 12px;
+}
+.modal-close:hover { color: var(--copper); }
+.modal-body { padding: 24px 36px 32px; }
+.modal-body p {
+  font-size: 14px; line-height: 1.7;
+  color: var(--ink-soft); margin-bottom: 16px;
+}
+.modal-body h4 {
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--copper); margin: 24px 0 10px;
+  font-weight: 600;
+}
+.modal-body ul {
+  margin: 8px 0 16px 20px;
+  font-size: 14px; color: var(--ink-soft); line-height: 1.7;
+}
+
+/* ====== FOOTER ====== */
+footer {
+  background: var(--ink); color: var(--paper);
+  padding: 80px 40px 40px; position: relative; z-index: 2;
+}
+footer .inner {
+  max-width: 1320px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px; padding-bottom: 60px;
+  border-bottom: 1px solid rgba(245, 243, 238, 0.15);
+}
+footer h5 {
+  font-family: var(--font-mono); font-size: 13px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 20px; font-weight: 600;
+}
+footer ul { list-style: none; }
+footer li {
+  font-size: 16px; margin-bottom: 10px;
+  color: rgba(245, 243, 238, 0.75);
+}
+footer li a { color: inherit; }
+footer li a:hover { color: var(--copper); }
+.footer-brand h4 {
+  font-size: 30px; font-weight: 300;
+  letter-spacing: -0.02em; margin-bottom: 16px;
+  max-width: 26ch; line-height: 1.25;
+}
+.footer-brand p {
+  font-family: var(--font-mono); font-size: 14px;
+  color: rgba(245, 243, 238, 0.5);
+  margin-top: 28px; letter-spacing: 0.04em;
+}
+.footer-bottom {
+  max-width: 1320px; margin: 0 auto; padding-top: 30px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 13px;
+  letter-spacing: 0.08em; color: rgba(245, 243, 238, 0.45);
+  text-transform: uppercase;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 980px) {
+  nav.top .inner { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section.hero { padding: 70px 24px 60px; }
+  .hero-sub { grid-template-columns: 1fr; gap: 36px; }
+  section.block { padding: 70px 24px; }
+  section.block.alt > .alt-inner { padding: 0 24px; }
+  .section-header { grid-template-columns: 1fr; gap: 16px; }
+  .section-num { padding-top: 0; }
+  .tech-grid, .product-list, .cert-strip, .contact-wrap { margin-left: 0; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .cert-strip { grid-template-columns: repeat(2, 1fr); }
+  .cert-item:nth-child(2) { border-right: none; }
+  .cert-item:nth-child(1), .cert-item:nth-child(2) { border-bottom: 1px solid var(--line); }
+  .product-row { grid-template-columns: 40px 1fr; gap: 16px; }
+  .product-desc, .product-tag { grid-column: 2; text-align: left; padding-top: 8px; }
+  /* Mobile: routes collapse to single column */
+  .routes-grid { grid-template-columns: 1fr; margin-bottom: 50px; }
+  .route { padding: 24px 0 !important; border-right: none !important; border-bottom: 1px solid var(--line) !important; }
+  .route:last-child { border-bottom: none !important; }
+  .form-frame { padding: 24px; }
+  .ksmc-form { grid-template-columns: 1fr; gap: 20px; }
+  .modal { max-height: 90vh; }
+  .modal-header { padding: 20px 24px 16px; }
+  .modal-body { padding: 20px 24px 28px; }
+  footer .inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="top">
+  <div class="inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark"></span>
+      <span>KSMC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#technology">Technology</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#quality">Quality</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact Us</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-eyebrow">KSMC · Est. 2008 · Suwon, Republic of Korea</div>
+  <h1>Beyond silicon, <em>built for the systems</em> that move the world.</h1>
+
+  <div class="hero-sub">
+    <p>
+      Korean Semiconductor Manufacturing Corporation is a fabless designer of mixed-signal,
+      memory, microcontroller, and power-management ICs for industrial automation, automotive
+      electronics, consumer electronics, and IoT infrastructure. We design in Korea, fabricate
+      in Taiwan and Singapore, and ship under full ISO and AEC-Q100 compliance.
+    </p>
+    <div class="hero-stats">
+      <div><span class="label">Process Nodes</span><span class="val">5nm — 180nm</span></div>
+      <div><span class="label">Fab Partners</span><span class="val">TSMC · UMC · GF</span></div>
+      <div><span class="label">Assembly Sites</span><span class="val">VN · PH · MY · TH</span></div>
+      <div><span class="label">Compliance</span><span class="val">EAR · ITAR · ISO 9001</span></div>
+      <div><span class="label">Active SKUs</span><span class="val">450+</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECHNOLOGY ============ -->
+<section class="block bordered" id="technology">
+  <div class="section-header">
+    <div class="section-num">01 / TECHNOLOGY</div>
+    <div>
+      <h2 class="section-title">A full process portfolio, from <em>EUV-class FinFET</em> to mature planar nodes.</h2>
+      <p class="section-lede">
+        KSMC supports designs across seven primary process nodes. EUV lithography at 5nm and 7nm
+        for mobile and high-performance compute; 14nm and 28nm for general-purpose logic and
+        automotive; mature nodes for analog, mixed-signal, and IoT power management.
+      </p>
+    </div>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-card"><div class="tech-node">5nm</div><div class="tech-type">FinFET · EUV</div><div class="tech-apps">Mobile SoC, HPC accelerators, AI inference</div></div>
+    <div class="tech-card"><div class="tech-node">7nm</div><div class="tech-type">FinFET · EUV</div><div class="tech-apps">Mobile, AI training, networking ASICs</div></div>
+    <div class="tech-card"><div class="tech-node">14nm</div><div class="tech-type">FinFET</div><div class="tech-apps">General-purpose compute, embedded</div></div>
+    <div class="tech-card"><div class="tech-node">28nm</div><div class="tech-type">Planar HKMG</div><div class="tech-apps">IoT, automotive infotainment</div></div>
+    <div class="tech-card"><div class="tech-node">40nm</div><div class="tech-type">Planar</div><div class="tech-apps">Mixed-signal, MCUs</div></div>
+    <div class="tech-card"><div class="tech-node">65nm</div><div class="tech-type">Planar</div><div class="tech-apps">Analog, power management</div></div>
+    <div class="tech-card"><div class="tech-node">130nm</div><div class="tech-type">Planar</div><div class="tech-apps">Sensors, industrial control</div></div>
+    <div class="tech-card"><div class="tech-node">180nm</div><div class="tech-type">Planar BCD</div><div class="tech-apps">Automotive power, MEMS</div></div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="block bordered" id="products">
+  <div class="section-header">
+    <div class="section-num">02 / PRODUCTS</div>
+    <div>
+      <h2 class="section-title">Eight product families, <em>one specification language.</em></h2>
+      <p class="section-lede">
+        Every KSMC part number carries traceability from wafer lot through final test. Engineering
+        teams reach us through the same channel as procurement — the request routes itself.
+      </p>
+    </div>
+  </div>
+  <div class="product-list">
+    <div class="product-row"><div class="product-idx">MCU</div><div class="product-name">Microcontrollers</div><div class="product-desc">ARM Cortex-M and proprietary cores, 16K to 4MB flash, automotive and industrial grade</div><div class="product-tag">KSMC-MCU····</div></div>
+    <div class="product-row"><div class="product-idx">MEM</div><div class="product-name">Memory</div><div class="product-desc">SRAM, NOR flash, EEPROM — LQFP, BGA, and chip-scale packages</div><div class="product-tag">KSMC-MEM····</div></div>
+    <div class="product-row"><div class="product-idx">PWR</div><div class="product-name">Power Management</div><div class="product-desc">PMICs, buck/boost converters, LDO regulators — up to 60V automotive rated</div><div class="product-tag">KSMC-PWR····</div></div>
+    <div class="product-row"><div class="product-idx">ANA</div><div class="product-name">Analog</div><div class="product-desc">Op-amps, comparators, references, signal conditioning ICs</div><div class="product-tag">KSMC-ANA····</div></div>
+    <div class="product-row"><div class="product-idx">LGC</div><div class="product-name">Logic</div><div class="product-desc">Standard logic gates, level shifters, bus interfaces</div><div class="product-tag">KSMC-LGC····</div></div>
+    <div class="product-row"><div class="product-idx">SNS</div><div class="product-name">Sensors</div><div class="product-desc">Temperature, pressure, current, Hall-effect sensors for industrial deployment</div><div class="product-tag">KSMC-SNS····</div></div>
+    <div class="product-row"><div class="product-idx">MXS</div><div class="product-name">Mixed-Signal</div><div class="product-desc">ADC, DAC, codec — for instrumentation and automotive applications</div><div class="product-tag">KSMC-MXS····</div></div>
+    <div class="product-row"><div class="product-idx">ASK</div><div class="product-name">ASIC / Custom Silicon</div><div class="product-desc">Customer-specific integrated circuits with NDA-based co-design programs</div><div class="product-tag">KSMC-ASK····</div></div>
+  </div>
+</section>
+
+<!-- ============ QUALITY ============ -->
+<section class="block alt" id="quality">
+  <div class="alt-inner">
+    <div class="section-header">
+      <div class="section-num">03 / QUALITY</div>
+      <div>
+        <h2 class="section-title">Certified, audited, <em>traceable to the wafer.</em></h2>
+        <p class="section-lede">
+          KSMC fabs and assembly partners operate under the strictest automotive and industrial
+          quality systems. Every lot is traceable from fab through final test under JESD96B coding.
+        </p>
+      </div>
+    </div>
+    <div class="cert-strip">
+      <div class="cert-item"><div class="cert-code">ISO 9001:2015</div><div class="cert-name">Quality Management</div><div class="cert-scope">All design and supply operations</div></div>
+      <div class="cert-item"><div class="cert-code">IATF 16949</div><div class="cert-name">Automotive QMS</div><div class="cert-scope">PPAP-ready for Tier 1 suppliers</div></div>
+      <div class="cert-item"><div class="cert-code">ISO 14001</div><div class="cert-name">Environmental</div><div class="cert-scope">Fab and assembly partner audits</div></div>
+      <div class="cert-item"><div class="cert-code">AEC-Q100</div><div class="cert-name">Automotive Reliability</div><div class="cert-scope">Grade 0 through Grade 3 qualified</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT — team's form integrated + PIPA-style consent ============ -->
+<section class="block" id="contact">
+  <div class="section-header">
+    <div class="section-num">04 / CONTACT</div>
+    <div>
+      <h2 class="section-title">Tell us what you're building. <em>We route the right specialist.</em></h2>
+      <p class="section-lede">
+        Submissions are routed automatically: technical specification requests go to our engineering
+        team, volume pricing requests to commercial, and procurement and compliance enquiries to our
+        export-control desk. Standard response window is under 4 business hours during global daylight.
+      </p>
+    </div>
+  </div>
+
+  <div class="contact-wrap">
+
+    <!-- TOP: Routing Categories in 2x2 grid -->
+    <div class="contact-routes">
+      <h3>Routing Categories</h3>
+      <div class="routes-grid">
+        <div class="route">
+          <div class="route-label">Technical Specification</div>
+          <div class="route-desc">Process node, package, operating temperature, lifespan requirements</div>
+        </div>
+        <div class="route">
+          <div class="route-label">Volume Pricing & Quotes</div>
+          <div class="route-desc">Tier discounts, annual commitments, sample orders</div>
+        </div>
+        <div class="route">
+          <div class="route-label">Procurement & Compliance</div>
+          <div class="route-desc">ECCN classification, license review, end-use verification</div>
+        </div>
+        <div class="route">
+          <div class="route-label">General Enquiries</div>
+          <div class="route-desc">Partnerships, press, supplier registration</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: wide compliance notice + form -->
+    <div class="contact-submit">
+      <div class="compliance-notice">
+        <strong>Export Compliance Notice</strong>
+        KSMC complies with U.S. Export Administration Regulations (EAR), ITAR, and BIS Entity List
+        controls. By submitting this form you acknowledge that:
+        <ul>
+          <li>End-use information is provided truthfully and may be verified</li>
+          <li>Requests from restricted regions or restricted end-uses cannot be served</li>
+          <li>All inquiries are logged for compliance audit (last review: 2026-03-01)</li>
+        </ul>
+      </div>
+
+      <div class="form-frame">
+
+        <div class="inquiry-id-display" id="inquiryIdDisplay">
+          Initializing session…
+        </div>
+
+        <form class="ksmc-form" id="webhookForm" novalidate>
+
+          <input type="hidden" id="inquiryDateBase" name="inquiryDateBase">
+          <input type="hidden" id="inquiry_id" name="inquiry_id">
+
+          <div class="field full">
+            <label for="market">Market<span class="req">*</span></label>
+            <input type="text" id="market" name="market" list="market_list" placeholder="e.g., Automotive, IoT, Industrial" required>
+            <datalist id="market_list">
+              <option value="Automotive">
+              <option value="Industrial & Automation">
+              <option value="Consumer Electronics">
+              <option value="IoT (Internet of Things)">
+              <option value="Computing & Data Centers">
+              <option value="Communications & 5G">
+              <option value="Aerospace & Defense">
+              <option value="Medical Devices">
+            </datalist>
+          </div>
+
+          <div class="field">
+            <label for="customer_name">Customer Name<span class="req">*</span></label>
+            <input type="text" id="customer_name" name="customer_name" placeholder="Enter company or client name" required>
+          </div>
+
+          <div class="field">
+            <label for="customer_email">Customer Email<span class="req">*</span></label>
+            <input type="email" id="customer_email" name="customer_email" placeholder="name@company.com" required>
+          </div>
+
+          <div class="field full">
+            <label for="customer_phone">Customer Phone<span class="req">*</span></label>
+            <input type="text" id="customer_phone" name="customer_phone" placeholder="e.g., +1 123-456-7890 or 010-1234-5678" required>
+            <span class="sub-label">Accepts international codes, spaces, dashes, and numbers.</span>
+          </div>
+
+          <div class="field full">
+            <label for="chip_id">Chip ID or Competitor Part Number<span class="req">*</span></label>
+            <input type="text" id="chip_id" name="chip_id" list="chip_list" placeholder="Select a part number or type custom entry…" required>
+            <datalist id="chip_list">
+              <option value="KSMC-MCU0317">
+              <option value="KSMC-LGC0096">
+              <option value="KSMC-LGC0320">
+              <option value="KSMC-ANA0310">
+              <option value="KSMC-PWR0106">
+              <option value="KSMC-PWR0174">
+              <option value="KSMC-RFF0181">
+              <option value="KSMC-LGC0200">
+              <option value="KSMC-PWR0201">
+              <option value="KSMC-MXS0155">
+              <option value="KSMC-ANA0386">
+              <option value="KSMC-MXS0292">
+              <option value="KSMC-MXS0421">
+              <option value="KSMC-SNS0012">
+              <option value="KSMC-MEM0262">
+              <option value="KSMC-PWR0034">
+              <option value="KSMC-MCU0046">
+              <option value="KSMC-SNS0194">
+              <option value="KSMC-MCU0412">
+              <option value="KSMC-PWR0015">
+              <option value="KSMC-ANA0401">
+              <option value="KSMC-LGC0423">
+              <option value="KSMC-MEM0270">
+              <option value="KSMC-MEM0299">
+              <option value="KSMC-SNS0048">
+              <option value="KSMC-RFF0160">
+              <option value="KSMC-MCU0072">
+              <option value="KSMC-ANA0415">
+              <option value="KSMC-RFF0408">
+              <option value="KSMC-ANA0389">
+              <option value="KSMC-MEM0363">
+              <option value="KSMC-MCU0286">
+              <option value="KSMC-MCU0191">
+              <option value="KSMC-MCU0284">
+              <option value="KSMC-MEM0153">
+              <option value="KSMC-MCU0055">
+              <option value="KSMC-SNS0144">
+              <option value="KSMC-PWR0228">
+              <option value="KSMC-MCU0176">
+              <option value="KSMC-PWR0114">
+              <option value="KSMC-ANA0185">
+              <option value="KSMC-RFF0341">
+              <option value="KSMC-MCU0435">
+              <option value="KSMC-ANA0157">
+              <option value="KSMC-SNS0068">
+              <option value="KSMC-SNS0256">
+              <option value="KSMC-MXS0125">
+              <option value="KSMC-MEM0443">
+              <option value="KSMC-ASK0431">
+              <option value="KSMC-PWR0377">
+              <option value="KSMC-MXS0275">
+              <option value="KSMC-ANA0148">
+              <option value="KSMC-RFF0218">
+              <option value="KSMC-PWR0040">
+              <option value="KSMC-RFF0430">
+              <option value="KSMC-MCU0051">
+              <option value="KSMC-SNS0187">
+              <option value="KSMC-RFF0388">
+              <option value="KSMC-ANA0091">
+              <option value="KSMC-ANA0438">
+              <option value="KSMC-PWR0213">
+              <option value="KSMC-PWR0259">
+              <option value="KSMC-MCU0076">
+              <option value="KSMC-LGC0442">
+              <option value="KSMC-ANA0322">
+              <option value="KSMC-MXS0307">
+              <option value="KSMC-PWR0204">
+              <option value="KSMC-LGC0100">
+              <option value="KSMC-MEM0235">
+              <option value="KSMC-MCU0331">
+              <option value="KSMC-PWR0016">
+              <option value="KSMC-MXS0356">
+              <option value="KSMC-ANA0283">
+              <option value="KSMC-MCU0161">
+              <option value="KSMC-LGC0220">
+              <option value="KSMC-PWR0274">
+              <option value="KSMC-PWR0406">
+              <option value="KSMC-PWR0276">
+              <option value="KSMC-MEM0358">
+              <option value="KSMC-PWR0156">
+              <option value="KSMC-ANA0117">
+              <option value="KSMC-PWR0003">
+              <option value="KSMC-ANA0380">
+              <option value="KSMC-MCU0383">
+              <option value="KSMC-SNS0238">
+              <option value="KSMC-RFF0119">
+              <option value="KSMC-MXS0326">
+              <option value="KSMC-ANA0264">
+              <option value="KSMC-ASK0007">
+              <option value="KSMC-SNS0102">
+              <option value="KSMC-ANA0285">
+              <option value="KSMC-MXS0188">
+              <option value="KSMC-SNS0437">
+              <option value="KSMC-ANA0052">
+              <option value="KSMC-MCU0130">
+              <option value="KSMC-MCU0118">
+              <option value="KSMC-ANA0301">
+              <option value="KSMC-MCU0348">
+              <option value="KSMC-LGC0288">
+              <option value="KSMC-MCU0086">
+              <option value="KSMC-MEM0152">
+              <option value="KSMC-SNS0021">
+              <option value="KSMC-ANA0166">
+              <option value="KSMC-SNS0212">
+              <option value="KSMC-RFF0339">
+              <option value="KSMC-ASK0158">
+              <option value="KSMC-ANA0424">
+              <option value="KSMC-MCU0447">
+              <option value="KSMC-PWR0449">
+              <option value="KSMC-SNS0282">
+              <option value="KSMC-MEM0056">
+              <option value="KSMC-MEM0304">
+              <option value="KSMC-RFF0108">
+              <option value="KSMC-MCU0154">
+              <option value="KSMC-PWR0122">
+              <option value="KSMC-MXS0272">
+              <option value="KSMC-MCU0265">
+              <option value="KSMC-ANA0303">
+              <option value="KSMC-LGC0278">
+              <option value="KSMC-MCU0042">
+              <option value="KSMC-MCU0099">
+              <option value="KSMC-SNS0004">
+              <option value="KSMC-MEM0258">
+              <option value="KSMC-ANA0115">
+              <option value="KSMC-MEM0444">
+              <option value="KSMC-MEM0095">
+              <option value="KSMC-SNS0202">
+              <option value="KSMC-PWR0097">
+              <option value="KSMC-PWR0092">
+              <option value="KSMC-ANA0366">
+              <option value="KSMC-RFF0419">
+              <option value="KSMC-PWR0418">
+              <option value="KSMC-MCU0109">
+              <option value="KSMC-PWR0338">
+              <option value="KSMC-RFF0189">
+              <option value="KSMC-ASK0253">
+              <option value="KSMC-ANA0164">
+              <option value="KSMC-LGC0422">
+              <option value="KSMC-MXS0124">
+              <option value="KSMC-ANA0064">
+              <option value="KSMC-LGC0392">
+              <option value="KSMC-ANA0355">
+              <option value="KSMC-MCU0432">
+              <option value="KSMC-ASK0374">
+              <option value="KSMC-MEM0060">
+              <option value="KSMC-SNS0306">
+              <option value="KSMC-ASK0333">
+              <option value="KSMC-ANA0255">
+              <option value="KSMC-LGC0066">
+              <option value="KSMC-RFF0290">
+              <option value="KSMC-RFF0330">
+              <option value="KSMC-MXS0360">
+              <option value="KSMC-MXS0371">
+              <option value="KSMC-ASK0300">
+              <option value="KSMC-ANA0038">
+              <option value="KSMC-ANA0246">
+              <option value="KSMC-MEM0193">
+              <option value="KSMC-RFF0378">
+              <option value="KSMC-PWR0252">
+              <option value="KSMC-MEM0222">
+              <option value="KSMC-ASK0065">
+              <option value="KSMC-MXS0093">
+              <option value="KSMC-MEM0344">
+              <option value="KSMC-SNS0186">
+              <option value="KSMC-SNS0329">
+              <option value="KSMC-ANA0226">
+              <option value="KSMC-MEM0017">
+              <option value="KSMC-MCU0107">
+              <option value="KSMC-MEM0002">
+              <option value="KSMC-PWR0022">
+              <option value="KSMC-MEM0067">
+              <option value="KSMC-MXS0023">
+              <option value="KSMC-MEM0365">
+              <option value="KSMC-MCU0370">
+              <option value="KSMC-MCU0041">
+              <option value="KSMC-MEM0314">
+              <option value="KSMC-MXS0135">
+              <option value="KSMC-MCU0033">
+              <option value="KSMC-MXS0312">
+              <option value="KSMC-PWR0080">
+              <option value="KSMC-PWR0240">
+              <option value="KSMC-MEM0221">
+              <option value="KSMC-ANA0190">
+              <option value="KSMC-LGC0024">
+              <option value="KSMC-PWR0425">
+              <option value="KSMC-MCU0019">
+              <option value="KSMC-SNS0182">
+              <option value="KSMC-MXS0367">
+              <option value="KSMC-PWR0210">
+              <option value="KSMC-ANA0261">
+              <option value="KSMC-PWR0075">
+              <option value="KSMC-MXS0247">
+              <option value="KSMC-MEM0198">
+              <option value="KSMC-LGC0420">
+              <option value="KSMC-ANA0177">
+              <option value="KSMC-MCU0405">
+              <option value="KSMC-MEM0206">
+              <option value="KSMC-MEM0335">
+              <option value="KSMC-ANA0327">
+              <option value="KSMC-ANA0087">
+              <option value="KSMC-ANA0063">
+              <option value="KSMC-MCU0054">
+              <option value="KSMC-MEM0001">
+              <option value="KSMC-SNS0183">
+              <option value="KSMC-PWR0359">
+              <option value="KSMC-MEM0131">
+              <option value="KSMC-MEM0049">
+              <option value="KSMC-ANA0361">
+              <option value="KSMC-MXS0010">
+              <option value="KSMC-ASK0233">
+              <option value="KSMC-SNS0101">
+              <option value="KSMC-ANA0248">
+              <option value="KSMC-LGC0089">
+              <option value="KSMC-MXS0309">
+              <option value="KSMC-MCU0428">
+              <option value="KSMC-MCU0398">
+              <option value="KSMC-RFF0297">
+              <option value="KSMC-LGC0162">
+              <option value="KSMC-MEM0263">
+              <option value="KSMC-SNS0409">
+              <option value="KSMC-MCU0141">
+              <option value="KSMC-ASK0434">
+              <option value="KSMC-SNS0035">
+              <option value="KSMC-ASK0139">
+              <option value="KSMC-MCU0178">
+              <option value="KSMC-ANA0242">
+              <option value="KSMC-SNS0053">
+              <option value="KSMC-ANA0170">
+              <option value="KSMC-LGC0113">
+              <option value="KSMC-MEM0232">
+              <option value="KSMC-MEM0384">
+              <option value="KSMC-ANA0354">
+              <option value="KSMC-MEM0057">
+              <option value="KSMC-MEM0260">
+              <option value="KSMC-SNS0376">
+              <option value="KSMC-MEM0230">
+              <option value="KSMC-RFF0399">
+              <option value="KSMC-ANA0223">
+              <option value="KSMC-MCU0173">
+              <option value="KSMC-ASK0129">
+              <option value="KSMC-MXS0111">
+              <option value="KSMC-PWR0254">
+              <option value="KSMC-LGC0239">
+              <option value="KSMC-LGC0128">
+              <option value="KSMC-SNS0225">
+              <option value="KSMC-ANA0302">
+              <option value="KSMC-PWR0079">
+              <option value="KSMC-MCU0008">
+              <option value="KSMC-MCU0436">
+              <option value="KSMC-MXS0391">
+              <option value="KSMC-RFF0138">
+              <option value="KSMC-LGC0150">
+              <option value="KSMC-PWR0400">
+              <option value="KSMC-MEM0005">
+              <option value="KSMC-MCU0143">
+              <option value="KSMC-MCU0308">
+              <option value="KSMC-ANA0045">
+              <option value="KSMC-MEM0267">
+              <option value="KSMC-RFF0245">
+              <option value="KSMC-MEM0393">
+              <option value="KSMC-MCU0020">
+              <option value="KSMC-PWR0208">
+              <option value="KSMC-LGC0013">
+              <option value="KSMC-MXS0379">
+              <option value="KSMC-ANA0446">
+              <option value="KSMC-MCU0249">
+              <option value="KSMC-MCU0390">
+              <option value="KSMC-ANA0289">
+              <option value="KSMC-MCU0250">
+              <option value="KSMC-ANA0036">
+              <option value="KSMC-MEM0387">
+              <option value="KSMC-LGC0257">
+              <option value="KSMC-ASK0077">
+              <option value="KSMC-PWR0199">
+              <option value="KSMC-MCU0287">
+              <option value="KSMC-MEM0294">
+              <option value="KSMC-MCU0009">
+              <option value="KSMC-PWR0407">
+              <option value="KSMC-ANA0280">
+              <option value="KSMC-PWR0372">
+              <option value="KSMC-MCU0397">
+              <option value="KSMC-PWR0027">
+              <option value="KSMC-LGC0368">
+              <option value="KSMC-MXS0364">
+              <option value="KSMC-MXS0351">
+              <option value="KSMC-SNS0136">
+              <option value="KSMC-ANA0396">
+              <option value="KSMC-ASK0031">
+              <option value="KSMC-MEM0172">
+              <option value="KSMC-MCU0103">
+              <option value="KSMC-RFF0316">
+              <option value="KSMC-ANA0169">
+              <option value="KSMC-ANA0120">
+              <option value="KSMC-ASK0197">
+              <option value="KSMC-SNS0147">
+              <option value="KSMC-LGC0429">
+              <option value="KSMC-MCU0426">
+              <option value="KSMC-MEM0047">
+              <option value="KSMC-SNS0142">
+              <option value="KSMC-PWR0006">
+              <option value="KSMC-MCU0043">
+              <option value="KSMC-SNS0340">
+              <option value="KSMC-PWR0074">
+              <option value="KSMC-ANA0132">
+              <option value="KSMC-SNS0353">
+              <option value="KSMC-SNS0224">
+              <option value="KSMC-MEM0313">
+              <option value="KSMC-PWR0070">
+              <option value="KSMC-SNS0050">
+              <option value="KSMC-SNS0296">
+              <option value="KSMC-MXS0445">
+              <option value="KSMC-MCU0175">
+              <option value="KSMC-ANA0098">
+              <option value="KSMC-PWR0234">
+              <option value="KSMC-SNS0440">
+              <option value="KSMC-PWR0269">
+              <option value="KSMC-MCU0205">
+              <option value="KSMC-MEM0373">
+              <option value="KSMC-PWR0411">
+              <option value="KSMC-PWR0336">
+              <option value="KSMC-ANA0032">
+              <option value="KSMC-LGC0357">
+              <option value="KSMC-ANA0281">
+              <option value="KSMC-MEM0082">
+              <option value="KSMC-MCU0192">
+              <option value="KSMC-LGC0165">
+              <option value="KSMC-LGC0279">
+              <option value="KSMC-LGC0271">
+              <option value="KSMC-PWR0026">
+              <option value="KSMC-MEM0362">
+              <option value="KSMC-ANA0121">
+              <option value="KSMC-MEM0134">
+              <option value="KSMC-ANA0349">
+              <option value="KSMC-MCU0410">
+              <option value="KSMC-MCU0311">
+              <option value="KSMC-MCU0163">
+              <option value="KSMC-ANA0058">
+              <option value="KSMC-PWR0229">
+              <option value="KSMC-MCU0402">
+              <option value="KSMC-SNS0413">
+              <option value="KSMC-LGC0403">
+              <option value="KSMC-PWR0180">
+              <option value="KSMC-SNS0375">
+              <option value="KSMC-MCU0332">
+              <option value="KSMC-MEM0105">
+              <option value="KSMC-LGC0295">
+              <option value="KSMC-LGC0352">
+              <option value="KSMC-PWR0305">
+              <option value="KSMC-MEM0236">
+              <option value="KSMC-MCU0209">
+              <option value="KSMC-RFF0381">
+              <option value="KSMC-MEM0394">
+              <option value="KSMC-PWR0085">
+              <option value="KSMC-MEM0268">
+              <option value="KSMC-PWR0244">
+              <option value="KSMC-ASK0084">
+              <option value="KSMC-SNS0414">
+              <option value="KSMC-PWR0196">
+              <option value="KSMC-MEM0179">
+              <option value="KSMC-MCU0323">
+              <option value="KSMC-ANA0140">
+              <option value="KSMC-ANA0337">
+              <option value="KSMC-LGC0293">
+              <option value="KSMC-RFF0321">
+              <option value="KSMC-MCU0369">
+              <option value="KSMC-PWR0159">
+              <option value="KSMC-PWR0061">
+              <option value="KSMC-ANA0059">
+              <option value="KSMC-PWR0227">
+              <option value="KSMC-MCU0116">
+              <option value="KSMC-SNS0217">
+              <option value="KSMC-ANA0343">
+              <option value="KSMC-LGC0298">
+              <option value="KSMC-MCU0145">
+              <option value="KSMC-SNS0382">
+              <option value="KSMC-RFF0318">
+              <option value="KSMC-MCU0346">
+              <option value="KSMC-MEM0231">
+              <option value="KSMC-PWR0094">
+              <option value="KSMC-MEM0030">
+              <option value="KSMC-SNS0324">
+              <option value="KSMC-MCU0104">
+              <option value="KSMC-ASK0110">
+              <option value="KSMC-PWR0433">
+              <option value="KSMC-MCU0325">
+              <option value="KSMC-ANA0203">
+              <option value="KSMC-MCU0439">
+              <option value="KSMC-ANA0018">
+              <option value="KSMC-ANA0417">
+              <option value="KSMC-ASK0037">
+              <option value="KSMC-MCU0149">
+              <option value="KSMC-MCU0266">
+              <option value="KSMC-MEM0062">
+              <option value="KSMC-MXS0071">
+              <option value="KSMC-MCU0219">
+              <option value="KSMC-ANA0395">
+              <option value="KSMC-MCU0448">
+              <option value="KSMC-MCU0416">
+              <option value="KSMC-MCU0078">
+              <option value="KSMC-PWR0126">
+              <option value="KSMC-ANA0427">
+              <option value="KSMC-ANA0211">
+              <option value="KSMC-ANA0216">
+              <option value="KSMC-MCU0171">
+              <option value="KSMC-RFF0347">
+              <option value="KSMC-MCU0073">
+              <option value="KSMC-RFF0123">
+              <option value="KSMC-LGC0044">
+              <option value="KSMC-SNS0090">
+              <option value="KSMC-MEM0385">
+              <option value="KSMC-MCU0151">
+              <option value="KSMC-SNS0069">
+              <option value="KSMC-LGC0146">
+              <option value="KSMC-PWR0237">
+              <option value="KSMC-PWR0214">
+              <option value="KSMC-ANA0291">
+              <option value="KSMC-RFF0039">
+              <option value="KSMC-ANA0207">
+              <option value="KSMC-MEM0083">
+              <option value="KSMC-MEM0127">
+              <option value="KSMC-PWR0319">
+              <option value="KSMC-MCU0088">
+              <option value="KSMC-MEM0215">
+              <option value="KSMC-MXS0273">
+              <option value="KSMC-MCU0350">
+              <option value="KSMC-PWR0081">
+              <option value="KSMC-ANA0441">
+              <option value="KSMC-LGC0167">
+              <option value="KSMC-MCU0241">
+              <option value="KSMC-SNS0243">
+              <option value="KSMC-MCU0277">
+              <option value="KSMC-ANA0404">
+              <option value="KSMC-MCU0137">
+              <option value="KSMC-MXS0133">
+              <option value="KSMC-MCU0029">
+              <option value="KSMC-MCU0168">
+              <option value="KSMC-PWR0334">
+              <option value="KSMC-MEM0450">
+              <option value="KSMC-MCU0251">
+              <option value="KSMC-RFF0011">
+              <option value="KSMC-PWR0195">
+              <option value="KSMC-MEM0014">
+              <option value="KSMC-PWR0112">
+              <option value="KSMC-MEM0345">
+              <option value="KSMC-MXS0342">
+              <option value="KSMC-MCU0184">
+              <option value="KSMC-MCU0328">
+              <option value="KSMC-SNS0315">
+              <option value="KSMC-PWR0028">
+              <option value="KSMC-MCU0025">
+            </datalist>
+          </div>
+
+          <div class="field">
+            <label for="quantity">Quantity<span class="req">*</span></label>
+            <input type="number" id="quantity" name="quantity" placeholder="e.g., 5000" required>
+          </div>
+
+          <div class="field">
+            <label for="destination">Ship-To Destination<span class="req">*</span></label>
+            <input type="text" id="destination" name="destination" placeholder="Country / City / Region" required>
+          </div>
+
+          <div class="field full">
+            <label for="target_price">Target Price</label>
+            <input type="text" id="target_price" name="target_price" placeholder="e.g., $1.50 per unit">
+          </div>
+
+          <!-- Optional Requirements section -->
+          <div class="form-section-header">
+            <span>Requirements (Optional)</span>
+          </div>
+
+          <div class="field full">
+            <label for="technical_requirement">Technical Requirement</label>
+            <input type="text" id="technical_requirement" name="technical_requirement" placeholder="Specify voltage, package size, speed, etc.">
+          </div>
+
+          <div class="field full">
+            <label for="quality_compliance">Quality Compliance</label>
+            <input type="text" id="quality_compliance" name="quality_compliance" placeholder="e.g., AEC-Q100, RoHS, ISO9001">
+          </div>
+
+          <div class="field full">
+            <label for="customer_remarks">Remarks / Detailed Request</label>
+            <span class="sub-label">Specific requirements, project background, or custom instructions for the routing agent.</span>
+            <textarea id="customer_remarks" name="customer_remarks" rows="5" placeholder="Enter explicit requests, project backgrounds, or prompts here…"></textarea>
+          </div>
+
+          <!-- ====== PIPA-style Privacy Consent block ====== -->
+          <div class="form-section-header">
+            <span>Privacy & Data Consent</span>
+          </div>
+
+          <div class="consent-block">
+            <label class="consent-master" for="consent_master">
+              <input type="checkbox" id="consent_master">
+              <span class="consent-master-text">I agree to all required terms below.</span>
+            </label>
+
+            <div class="consent-item">
+              <input type="checkbox" id="privacy_policy_ack" name="privacy_policy_ack" required>
+              <label class="consent-label" for="privacy_policy_ack">
+                <span class="consent-tag">Required</span>
+                <span>Privacy Policy</span>
+              </label>
+              <span class="consent-view" data-modal="privacy">View</span>
+            </div>
+
+            <div class="consent-item">
+              <input type="checkbox" id="personal_info_ack" name="personal_info_ack" required>
+              <label class="consent-label" for="personal_info_ack">
+                <span class="consent-tag">Required</span>
+                <span>Collection &amp; Use of Personal Information</span>
+              </label>
+              <span class="consent-view" data-modal="personal">View</span>
+            </div>
+
+            <div class="consent-item optional">
+              <input type="checkbox" id="marketing_consent" name="marketing_consent">
+              <label class="consent-label" for="marketing_consent">
+                <span class="consent-tag optional">Optional</span>
+                <span>Marketing Communications &amp; Analytics</span>
+              </label>
+              <span class="consent-view" data-modal="marketing">View</span>
+            </div>
+          </div>
+
+          <div class="form-status" id="formStatus"></div>
+
+          <div class="form-submit">
+            <span class="form-hint">Submission goes to KSMC routing desk · Avg. response &lt; 4 hours</span>
+            <button type="submit" class="btn-submit" id="submitBtn">Submit Inquiry →</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODAL FOR PRIVACY DOCUMENTS ============ -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-tag" id="modalTag">Required</div>
+        <div class="modal-title" id="modalTitle">Privacy Policy</div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer id="about">
+  <div class="inner">
+    <div class="footer-brand">
+      <h5>KSMC</h5>
+      <h4>Korean Semiconductor Manufacturing Corporation — designing the silicon between intention and motion.</h4>
+      <p>EST. 2008 · SUWON · GLOBAL OPERATIONS</p>
+    </div>
+    <div>
+      <h5>Operations</h5>
+      <ul>
+        <li>HQ — Suwon, Korea</li>
+        <li>Fab — Hsinchu, TW</li>
+        <li>Fab — Singapore</li>
+        <li>Assembly — Ho Chi Minh, Manila, Penang</li>
+      </ul>
+    </div>
+    <div>
+      <h5>Compliance</h5>
+      <ul>
+        <li><a href="#" data-modal="privacy">Privacy Policy</a></li>
+        <li><a href="#" data-modal="personal">Personal Info Collection</a></li>
+        <li><a href="#">Export Control Policy</a></li>
+        <li><a href="#">Code of Conduct</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Resources</h5>
+      <ul>
+        <li><a href="#">Investor Relations</a></li>
+        <li><a href="#">Newsroom</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 KSMC. All rights reserved.</div>
+    <div>BUILT FOR ABP DEMO DAY · v3.0</div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SCRIPT — inquiry_id + form submit + consent master + modals
+     ============================================================ -->
+<script>
+  /* ★ APPS_SCRIPT_URL — deployed Web App endpoint ★ */
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwo6qPhNOcZVjzEbIJZELkzx7nG_Sz_9C57s6BSxP33JHN4zjTduBQBXbn8fJyAA6as/exec';
+
+  /* ── inquiry_id auto-generator (team's original spec preserved) ── */
+  function generateInquiryBase() {
+    const today = new Date();
+    const mm    = String(today.getMonth() + 1).padStart(2, '0');
+    const dd    = String(today.getDate()).padStart(2, '0');
+    const yyyy  = today.getFullYear();
+    const dateStr = `${mm}${dd}${yyyy}`;
+    const suffix  = Math.floor(1000 + Math.random() * 9000);
+    const fullId  = `INQ-${dateStr}-${suffix}`;
+    document.getElementById('inquiryDateBase').value = dateStr;
+    document.getElementById('inquiry_id').value      = fullId;
+    document.getElementById('inquiryIdDisplay').innerHTML =
+      `Current Inquiry ID: <strong>${fullId}</strong>`;
+  }
+  generateInquiryBase();
+
+  /* ── consent master checkbox: toggles both required boxes ── */
+  const master = document.getElementById('consent_master');
+  const req1 = document.getElementById('privacy_policy_ack');
+  const req2 = document.getElementById('personal_info_ack');
+  function syncMaster() {
+    master.checked = req1.checked && req2.checked;
+  }
+  master.addEventListener('change', () => {
+    req1.checked = master.checked;
+    req2.checked = master.checked;
+  });
+  req1.addEventListener('change', syncMaster);
+  req2.addEventListener('change', syncMaster);
+
+  /* ── modal logic ── */
+  const modalContent = {
+    privacy: {
+      tag: 'Required',
+      title: 'Privacy Policy',
+      body: `
+        <p>KSMC ("we", "us") operates as data controller for personal information submitted
+        through this inquiry form. This Privacy Policy describes how we collect, use, store,
+        and share your information in accordance with the EU General Data Protection
+        Regulation (GDPR) and the Republic of Korea Personal Information Protection Act (PIPA).</p>
+
+        <h4>Information We Collect</h4>
+        <ul>
+          <li>Identification: customer name, business email, phone number</li>
+          <li>Inquiry data: chip ID, quantity, destination, technical requirements</li>
+          <li>Technical metadata: IP address, browser user-agent, submission timestamp</li>
+        </ul>
+
+        <h4>Legal Basis &amp; Retention</h4>
+        <p>We process personal information on the legal basis of (a) your consent and
+        (b) legitimate business interest in responding to your inquiry. Inquiry records
+        are retained for 3 years from the date of submission for audit and compliance
+        purposes, after which they are securely destroyed.</p>
+
+        <h4>Your Rights</h4>
+        <p>You have the right to access, correct, delete, or restrict processing of your
+        personal information at any time by contacting privacy@ksmc.example. You also
+        have the right to lodge a complaint with the Korea Personal Information
+        Protection Commission (PIPC) or your local data protection authority.</p>
+
+        <h4>International Transfers</h4>
+        <p>KSMC operates globally; your information may be transferred to and processed
+        in Korea, Taiwan, Singapore, and other jurisdictions where we maintain operations,
+        subject to appropriate safeguards including Standard Contractual Clauses.</p>
+      `
+    },
+    personal: {
+      tag: 'Required',
+      title: 'Collection & Use of Personal Information',
+      body: `
+        <p>By submitting this inquiry form you consent to the collection and use of the
+        following personal information by KSMC, as required to process your inquiry.</p>
+
+        <h4>Items Collected</h4>
+        <ul>
+          <li>Customer name and company affiliation</li>
+          <li>Business email address</li>
+          <li>Business phone number</li>
+          <li>Ship-to destination (country / city / region)</li>
+        </ul>
+
+        <h4>Purpose of Use</h4>
+        <ul>
+          <li>Routing your inquiry to the appropriate KSMC specialist (technical, sales, compliance)</li>
+          <li>Generating quotations and technical responses</li>
+          <li>Communicating regarding your specific request</li>
+          <li>Verifying export-control compliance and end-use legitimacy</li>
+        </ul>
+
+        <h4>Retention Period</h4>
+        <p>3 years from the date of submission, or until you request deletion, whichever
+        occurs first. Records required for legal or audit obligations may be retained
+        for the period mandated by applicable law.</p>
+
+        <h4>Right to Refuse</h4>
+        <p>You have the right to refuse consent. However, refusal will prevent KSMC from
+        processing your inquiry, as this information is essential for routing and response.</p>
+      `
+    },
+    marketing: {
+      tag: 'Optional',
+      title: 'Marketing Communications & Analytics',
+      body: `
+        <p>This consent is optional. Refusing this consent does not affect the processing
+        of your current inquiry.</p>
+
+        <h4>Items Collected (additional)</h4>
+        <ul>
+          <li>Market segment of interest</li>
+          <li>Inquiry history (linked to your email address)</li>
+          <li>Website interaction data via cookies (page views, content engagement)</li>
+        </ul>
+
+        <h4>Purpose of Use</h4>
+        <ul>
+          <li>Sending product updates, technical newsletters, and event invitations</li>
+          <li>Targeted communications about products relevant to your market segment</li>
+          <li>Aggregated analytics to improve our services</li>
+        </ul>
+
+        <h4>Retention Period</h4>
+        <p>Until you withdraw consent. You may unsubscribe at any time via the link
+        included in every marketing email, or by contacting privacy@ksmc.example.</p>
+
+        <h4>Third-Party Sharing</h4>
+        <p>Marketing communications are sent directly by KSMC. Aggregated, anonymized
+        analytics data may be shared with our analytics processors under appropriate
+        data processing agreements.</p>
+      `
+    }
+  };
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalTag = document.getElementById('modalTag');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalClose = document.getElementById('modalClose');
+
+  function openModal(key) {
+    const c = modalContent[key];
+    if (!c) return;
+    modalTag.textContent   = c.tag;
+    modalTitle.textContent = c.title;
+    modalBody.innerHTML    = c.body;
+    modalBackdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modalBackdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('[data-modal]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal(el.dataset.modal);
+    });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', (e) => {
+    if (e.target === modalBackdrop) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ── form submission to Apps Script ── */
+  const form       = document.getElementById('webhookForm');
+  const status     = document.getElementById('formStatus');
+  const submitBtn  = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      showStatus('err', 'Validation failed',
+        'Please complete all required fields and accept the required privacy terms.');
+      form.reportValidity();
+      return;
+    }
+
+    /* Collect into a plain object — preserves team's original field names */
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.privacy_policy_ack = req1.checked;
+    data.personal_info_ack  = req2.checked;
+    data.marketing_consent  = document.getElementById('marketing_consent').checked;
+    data.userAgent          = navigator.userAgent;
+    data.submittedAt        = new Date().toISOString();
+
+    /* ─── DEBUG LOGGING ─── */
+    console.group('🚀 KSMC Form Submission');
+    console.log('Endpoint:', APPS_SCRIPT_URL);
+    console.log('Payload:', data);
+
+    /* Pre-flight URL sanity check */
+    if (APPS_SCRIPT_URL.includes('PASTE_YOUR_DEPLOYMENT_ID_HERE')) {
+      console.error('❌ APPS_SCRIPT_URL is still the placeholder. Deploy your Apps Script and paste the /exec URL.');
+      console.groupEnd();
+      showStatus('err', 'Setup incomplete',
+        'APPS_SCRIPT_URL is still the placeholder value. Open ksmc_demo_site.html, search for "PASTE_YOUR_DEPLOYMENT_ID_HERE", and replace it with your deployed Apps Script /exec URL.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    hideStatus();
+
+    try {
+      /* Content-Type intentionally omitted → browser sends text/plain
+         → Apps Script does NOT trigger CORS preflight, response is readable */
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        redirect: 'follow',
+      });
+
+      console.log('HTTP status:', res.status, res.statusText);
+      console.log('Response URL:', res.url);
+
+      /* Read body as text first — so we can see the raw response
+         even if it's not valid JSON (e.g. an HTML error page) */
+      const rawText = await res.text();
+      console.log('Raw response body:', rawText);
+
+      let json;
+      try {
+        json = JSON.parse(rawText);
+      } catch (parseErr) {
+        console.error('❌ Response was not valid JSON. This usually means Apps Script returned an HTML error/login page.');
+        throw new Error('Apps Script returned non-JSON response. Check console for raw body.');
+      }
+
+      console.log('Parsed JSON:', json);
+      console.groupEnd();
+
+      if (json.status === 'ok') {
+        showStatus('ok', 'Inquiry received',
+          `Your inquiry has been logged (ref: ${json.ref}). The KSMC routing desk will respond within 4 business hours.`);
+        form.reset();
+        master.checked = false;
+        generateInquiryBase();
+      } else {
+        throw new Error(json.message || 'Unknown error from Apps Script');
+      }
+    } catch (err) {
+      console.error('❌ Submission error object:', err);
+      console.error('❌ Error name:', err.name);
+      console.error('❌ Error message:', err.message);
+      console.groupEnd();
+
+      /* Friendlier hint for the most common cause */
+      let hint = err.message;
+      if (err.message === 'Failed to fetch') {
+        hint = 'Failed to fetch — the request never reached Apps Script. Check the console for details. Most common cause: APPS_SCRIPT_URL is wrong, or the deployment "Who has access" is not set to "Anyone".';
+      }
+
+      showStatus('err', 'Submission failed', hint);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Inquiry →';
+    }
+  });
+
+  function showStatus(kind, title, msg) {
+    status.className = `form-status show ${kind}`;
+    status.innerHTML = `<strong>${title}</strong>${msg}`;
+    status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function hideStatus() {
+    status.className = 'form-status';
+    status.innerHTML = '';
+  }
+</script>
+
+</body>
+</html>
