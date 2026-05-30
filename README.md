@@ -2,9 +2,20 @@
 
 ### Focus Areas
 
-- multi-agent-system, ai-agents, n8n, langflow, google-apps-script
-- semiconductor, b2b-automation, capstone-project, skk-gsb, abp
-- workflow-automation, sales-automation, guardrail-AI, sequential-agents
+- multi-agent-system
+- ai-agents
+- n8n
+- langflow
+- google-apps-script
+- semiconductor
+- b2b-automation
+- capstone-project
+- skk-gsb
+- abp
+- workflow-automation
+- sales-automation
+- guardrail-AI
+- sequential-agents
 
 <!--
 **CarenYoongeom/CarenYoongeom** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
