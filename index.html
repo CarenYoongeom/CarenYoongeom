@@ -1593,6 +1593,15 @@ footer li a:hover { color: var(--copper); }
     data.userAgent          = navigator.userAgent;
     data.submittedAt        = new Date().toISOString();
 
+    /* ── Key-name normalization for Apps Script payload contract ──
+       HTML form uses some legacy names (destination, customer_remarks)
+       that don't match the Apps Script schema (ship_to, remarks).
+       We send BOTH the original AND the normalized keys so:
+         (a) Apps Script populates Ship To and Remarks columns correctly
+         (b) anything else still depending on the legacy names keeps working   */
+    data.ship_to = data.destination || '';
+    data.remarks = data.customer_remarks || '';
+
     /* ─── DEBUG LOGGING ─── */
     console.group('🚀 KSMC Form Submission');
     console.log('Endpoint:', APPS_SCRIPT_URL);
@@ -1640,8 +1649,19 @@ footer li a:hover { color: var(--copper); }
       console.groupEnd();
 
       if (json.status === 'ok') {
+        /* Triple fallback for the reference ID display:
+             1st  → Apps Script's standard key   (json.inquiry_id)
+             2nd  → Apps Script's alias key      (json.ref)
+             3rd  → HTML's client-generated ID   (hidden input)
+             4th  → 'PENDING' literal            (never show 'undefined')   */
+        const refId =
+          json.inquiry_id ||
+          json.ref ||
+          document.getElementById('inquiry_id').value ||
+          'PENDING';
+
         showStatus('ok', 'Inquiry received',
-          `Your inquiry has been logged (ref: ${json.ref}). The KSMC routing desk will respond within 4 business hours.`);
+          `Your inquiry has been logged (ref: ${refId}). The KSMC routing desk will respond within 4 business hours.`);
         form.reset();
         master.checked = false;
         generateInquiryBase();
